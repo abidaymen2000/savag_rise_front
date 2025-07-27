@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { Body_upload_image_to_product_products__product_id__upload_image_post } from './models/Body_upload_image_to_product_products__product_id__upload_image_post';
 export type { Body_upload_image_upload_image_post } from './models/Body_upload_image_upload_image_post';
 export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { ImageCreate } from './models/ImageCreate';

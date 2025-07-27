@@ -2,6 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Body_upload_image_to_product_products__product_id__upload_image_post } from '../models/Body_upload_image_to_product_products__product_id__upload_image_post';
+import type { ImageUploadOut } from '../models/ImageUploadOut';
 import type { ProductCreate } from '../models/ProductCreate';
 import type { ProductOut } from '../models/ProductOut';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -65,6 +67,30 @@ export class ProductsService {
             path: {
                 'product_id': productId,
             },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
+    /**
+     * Upload une image puis l'ajoute à la collection du produit
+     * @param productId
+     * @param formData
+     * @returns ImageUploadOut Successful Response
+     * @throws ApiError
+     */
+    public static uploadImageToProductProductsProductIdUploadImagePost(
+        productId: string,
+        formData: Body_upload_image_to_product_products__product_id__upload_image_post,
+    ): CancelablePromise<ImageUploadOut> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/products/{product_id}/upload-image',
+            path: {
+                'product_id': productId,
+            },
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 422: `Validation Error`,
             },

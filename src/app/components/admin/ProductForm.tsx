@@ -8,10 +8,10 @@ import {
   useFieldArray,
   Controller,
 } from "react-hook-form";
-import type { ProductCreate } from "../services/generated/models/ProductCreate";
-import { ProductsService } from "../services/generated/services/ProductsService";
-import { UploadService } from "../services/generated/services/UploadService";
-import type { Body_upload_image_upload_image_post } from "../services/generated/models/Body_upload_image_upload_image_post";
+import type { ProductCreate } from "../../services/generated/models/ProductCreate";
+import { ProductsService } from "../../services/generated/services/ProductsService";
+import { UploadService } from "../../services/generated/services/UploadService";
+import type { Body_upload_image_upload_image_post } from "../../services/generated/models/Body_upload_image_upload_image_post";
 
 // --- Types personnalisés pour le formulaire ---
 interface ImageFormItem {
