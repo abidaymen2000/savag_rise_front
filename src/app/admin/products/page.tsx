@@ -141,10 +141,13 @@ export default function ProductsPage() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Eye className="mr-2 h-4 w-4" />
-                              View
-                            </DropdownMenuItem>
+                           <DropdownMenuItem asChild>
+  <Link href={`/admin/products/${product.id}`}>
+    <Eye className="mr-2 h-4 w-4" />
+    View
+  </Link>
+</DropdownMenuItem>
+
                             <DropdownMenuItem>
                               <Edit className="mr-2 h-4 w-4" />
                               Edit

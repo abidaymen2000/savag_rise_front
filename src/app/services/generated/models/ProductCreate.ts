@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ImageCreate } from './ImageCreate';
+import type { VariantCreate } from './VariantCreate';
 export type ProductCreate = {
     style_id: string;
     name: string;
@@ -34,5 +35,6 @@ export type ProductCreate = {
     price: number;
     in_stock?: boolean;
     images?: Array<ImageCreate>;
+    variants?: (Array<VariantCreate> | null);
 };
 
