@@ -2,9 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ImageOut } from './ImageOut';
+import type { SizeStock } from './SizeStock';
 export type VariantOut = {
     color: string;
-    size: string;
-    stock: number;
+    sizes: Array<SizeStock>;
+    images?: Array<ImageOut>;
 };
 

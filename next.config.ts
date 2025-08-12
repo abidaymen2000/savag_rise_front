@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-// next.config.js
   images: {
-    domains: ['localhost'],  // add your backend hostname here
+    domains: ['localhost', 'ik.imagekit.io'], // add your backend hostname and image host here
   },
 };
+
 export default nextConfig;

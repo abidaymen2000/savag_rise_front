@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ImageCreate } from './ImageCreate';
 import type { VariantOut } from './VariantOut';
 export type ProductOut = {
     style_id: string;
@@ -32,10 +31,13 @@ export type ProductOut = {
     embroidery_color?: (string | null);
     alternative_marking?: (string | null);
     care_instructions?: (string | null);
+    /**
+     * Liste des catégories associées au produit
+     */
+    categories?: Array<string>;
     id: string;
     price: number;
     in_stock: boolean;
-    images?: Array<ImageCreate>;
     variants?: Array<VariantOut>;
 };
 

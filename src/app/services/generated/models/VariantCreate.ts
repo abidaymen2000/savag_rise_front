@@ -2,9 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { SizeStock } from './SizeStock';
 export type VariantCreate = {
     color: string;
-    size: string;
-    stock: number;
+    sizes: Array<SizeStock>;
+    images?: Array<string>;
 };
 

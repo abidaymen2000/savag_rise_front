@@ -2,24 +2,24 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Body_upload_image_upload_image_post } from '../models/Body_upload_image_upload_image_post';
-import type { ImageUploadOut } from '../models/ImageUploadOut';
+import type { Body_upload_images_upload_images_post } from '../models/Body_upload_images_upload_images_post';
+import type { MultipleImageUploadOut } from '../models/MultipleImageUploadOut';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class UploadService {
     /**
-     * Upload une image et renvoie son URL publique
+     * Upload Images
      * @param formData
-     * @returns ImageUploadOut Successful Response
+     * @returns MultipleImageUploadOut Successful Response
      * @throws ApiError
      */
-    public static uploadImageUploadImagePost(
-        formData: Body_upload_image_upload_image_post,
-    ): CancelablePromise<ImageUploadOut> {
+    public static uploadImagesUploadImagesPost(
+        formData: Body_upload_images_upload_images_post,
+    ): CancelablePromise<MultipleImageUploadOut> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/upload-image',
+            url: '/upload-images',
             formData: formData,
             mediaType: 'multipart/form-data',
             errors: {

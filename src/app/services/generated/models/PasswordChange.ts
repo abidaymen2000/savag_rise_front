@@ -2,10 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserOut = {
-    email: string;
-    full_name?: (string | null);
-    id: string;
-    is_active: boolean;
+export type PasswordChange = {
+    current_password: string;
+    new_password: string;
 };
 

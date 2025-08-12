@@ -2,10 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserOut = {
-    email: string;
+export type UserUpdate = {
+    email?: (string | null);
     full_name?: (string | null);
-    id: string;
-    is_active: boolean;
 };
 

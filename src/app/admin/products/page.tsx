@@ -9,26 +9,47 @@ import { Input } from "@/app/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/app/components/ui/dropdown-menu"
 import { Plus, Search, Filter, MoreHorizontal, Edit, Trash2, Eye, Package } from "lucide-react"
-// import Image from "next/image"
 import Link from "next/link"
 
 import { ProductsService } from "@/app/services/generated"
 import type { ProductOut } from "@/app/services/generated/models/ProductOut"
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<ProductOut[]>([])
+  const [allProducts, setAllProducts] = useState<ProductOut[]>([])
+  const [filteredProducts, setFilteredProducts] = useState<ProductOut[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
-    ProductsService.listProductsProductsGet()
-      .then((res) => {
-        console.log("Fetched products:", res)  // <-- Here is the console.log
-        setProducts(res)
-      })
-      .catch(() => setError("Failed to load products"))
-      .finally(() => setLoading(false))
+    const fetchProducts = async () => {
+      setLoading(true)
+      try {
+        const res = await ProductsService.listProductsProductsGet()
+        setAllProducts(res)
+        setFilteredProducts(res)
+      } catch (err) {
+        console.error("Error fetching products:", err)
+        setError("Failed to load products")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProducts()
   }, [])
+
+  useEffect(() => {
+    const term = searchTerm.toLowerCase()
+    setFilteredProducts(
+      allProducts.filter((p) =>
+        p.name?.toLowerCase().includes(term) ||
+        p.full_name?.toLowerCase().includes(term) ||
+        p.sku?.toLowerCase().includes(term) ||
+        p.style_id?.toLowerCase().includes(term)
+      )
+    )
+  }, [searchTerm, allProducts])
 
   if (loading) {
     return (
@@ -63,17 +84,22 @@ export default function ProductsPage() {
       </header>
 
       <main className="flex-1 space-y-4 p-4 md:p-8">
-        {/* Filters and Search */}
         <Card>
           <CardHeader>
             <CardTitle>Product Management</CardTitle>
             <CardDescription>Manage your clothing items and collections</CardDescription>
           </CardHeader>
           <CardContent>
+            {/* Search + Filter row */}
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search products..." className="pl-10" disabled />
+                <Input
+                  placeholder="Search products..."
+                  className="pl-10"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
               <Button variant="outline" disabled>
                 <Filter className="h-4 w-4 mr-2" />
@@ -99,68 +125,71 @@ export default function ProductsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {products.map((product) => (
-                  <TableRow key={product.id}>
-<TableCell>
-    {product.images && product.images.length > 0 ? (
-      <img
-        src={product.images[0].url}
-        alt={product.name}
-        className="rounded-md object-cover"
-        width={60}
-        height={60}
-      />
-    ) : (
-      <img
-        src="/placeholder.svg"
-        alt="No image"
-        width={60}
-        height={60}
-        className="rounded-md object-cover"
-      />
-    )}
-  </TableCell>
-
-                      <TableCell>{product.style_id}</TableCell>
-                      <TableCell>{product.name}</TableCell>
-                      <TableCell>{product.full_name}</TableCell>
-                      <TableCell>{product.sku ?? "-"}</TableCell>
-                      <TableCell className="max-w-xs truncate">{product.description ?? "-"}</TableCell>
-                      <TableCell>{product.season ?? "-"}</TableCell>
-                      <TableCell className="font-medium">${product.price.toFixed(2)}</TableCell>
-                      <TableCell>
-                        <Badge variant={product.in_stock ? "default" : "destructive"}>
-                          {product.in_stock ? "In Stock" : "Out of Stock"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                           <DropdownMenuItem asChild>
-  <Link href={`/admin/products/${product.id}`}>
-    <Eye className="mr-2 h-4 w-4" />
-    View
-  </Link>
-</DropdownMenuItem>
-
-                            <DropdownMenuItem>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {filteredProducts.map((product) => {
+                    const firstImage = product.variants?.[0]?.images?.[0]?.url || null
+                    return (
+                      <TableRow key={product.id}>
+                        <TableCell>
+                          {firstImage ? (
+                            <img
+                              src={firstImage}
+                              alt={product.name}
+                              className="rounded-md object-cover"
+                              width={60}
+                              height={60}
+                            />
+                          ) : (
+                            <img
+                              src="/placeholder.svg"
+                              alt="No image"
+                              width={60}
+                              height={60}
+                              className="rounded-md object-cover"
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell>{product.style_id}</TableCell>
+                        <TableCell>{product.name}</TableCell>
+                        <TableCell>{product.full_name}</TableCell>
+                        <TableCell>{product.sku ?? "-"}</TableCell>
+                        <TableCell className="max-w-xs truncate">{product.description ?? "-"}</TableCell>
+                        <TableCell>{product.season ?? "-"}</TableCell>
+                        <TableCell className="font-medium">
+                          {product.price != null ? `$${product.price.toFixed(2)}` : "-"}
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant={product.in_stock ? "default" : "destructive"}>
+                            {product.in_stock ? "In Stock" : "Out of Stock"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem asChild>
+                                <Link href={`/admin/products/${product.id}`}>
+                                  <Eye className="mr-2 h-4 w-4" />
+                                  View
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="text-red-600">
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
               </Table>
             </div>

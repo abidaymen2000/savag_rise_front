@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserOut = {
-    email: string;
-    full_name?: (string | null);
+export type ImageOut = {
+    url: string;
+    alt_text?: (string | null);
+    order?: (number | null);
     id: string;
-    is_active: boolean;
 };
 

@@ -2,7 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Body_upload_image_to_product_products__product_id__upload_image_post = {
-    file: Blob;
+export type ReviewUpdate = {
+    rating?: (number | null);
+    title: (string | null);
+    comment: (string | null);
 };
 

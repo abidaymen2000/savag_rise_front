@@ -92,4 +92,24 @@ export class OrdersService {
             },
         });
     }
+    /**
+     * Permet au client d'annuler sa commande si elle est encore en pending
+     * @param orderId ID de la commande à annuler
+     * @returns OrderOut Successful Response
+     * @throws ApiError
+     */
+    public static apiCancelOrderOrdersOrderIdCancelPatch(
+        orderId: string,
+    ): CancelablePromise<OrderOut> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/orders/{order_id}/cancel',
+            path: {
+                'order_id': orderId,
+            },
+            errors: {
+                422: `Validation Error`,
+            },
+        });
+    }
 }

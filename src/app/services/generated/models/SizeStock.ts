@@ -2,9 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ImageCreate = {
-    url: string;
-    alt_text?: (string | null);
-    order?: (number | null);
+export type SizeStock = {
+    size: string;
+    stock: number;
 };
 

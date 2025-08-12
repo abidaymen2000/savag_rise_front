@@ -2,7 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ImageUploadOut = {
-    url: string;
+export type WishlistCreate = {
+    /**
+     * ID du produit à ajouter
+     */
+    product_id: string;
 };
 

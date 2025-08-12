@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserOut = {
-    email: string;
-    full_name?: (string | null);
+export type WishlistOut = {
     id: string;
-    is_active: boolean;
+    user_id: string;
+    product_id: string;
+    added_at: string;
 };
 

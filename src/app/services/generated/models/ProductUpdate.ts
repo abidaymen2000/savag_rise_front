@@ -32,5 +32,6 @@ export type ProductUpdate = {
     care_instructions?: (string | null);
     price?: (number | null);
     in_stock?: (boolean | null);
+    categories: (Array<string> | null);
 };
 

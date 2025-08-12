@@ -2,10 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserOut = {
-    email: string;
-    full_name?: (string | null);
-    id: string;
-    is_active: boolean;
+export type Body_upload_images_upload_images_post = {
+    files: Array<Blob>;
 };
 
